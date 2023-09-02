@@ -7,27 +7,19 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="voiceinator">
-
       <h1>The Voiceinator 5000</h1>
-
       <select name="voice" id="voices">
         <option value="">Select A Voice</option>
       </select>
-
       <label for="rate">Rate:</label>
       <input name="rate" type="range" min="0" max="3" value="1" step="0.1">
-
       <label for="pitch">Pitch:</label>
-
       <input name="pitch" type="range" min="0" max="2" step="0.1">
       <textarea name="text">Hello! I love JavaScript 👍</textarea>
       <button id="stop">Stop!</button>
       <button id="speak">Speak</button>
-
     </div>
-
 <script>
   const msg = new SpeechSynthesisUtterance();
   let voices = [];
@@ -36,7 +28,31 @@
   const speakButton = document.querySelector('#speak');
   const stopButton = document.querySelector('#stop');
 
-  //Your code goes here
+	let synth = window.speechSynthesis;
+
+  speakButton.onclick = () => {
+	  if (synth.speaking) {
+    return;
+  }
+	  const rateInput = options[0];
+	  const pitchInput = options[1];
+
+	  const textToSpeak = options[2].value;
+
+	  if (textToSpeak !== '') {
+	    msg.text = textToSpeak;
+	    msg.pitch = parseFloat(pitchInput.value);
+	    msg.rate = parseFloat(rateInput.value);
+	    synth.speak(msg);
+	  }
+  }
+
+
+  stopButton.onclick = () => {
+	  if (synth.speaking) {
+    synth.cancel();
+	  }
+  }
 </script>
 
 </body>
